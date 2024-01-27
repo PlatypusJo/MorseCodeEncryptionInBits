@@ -22,7 +22,7 @@ namespace Lab2DP
                                                              (5, 1), (5, 0), (6, 63), (6, 42), (6, 7), (5, 10), (6, 12), (6, 45),
                                                              (6, 18), (6, 18), (6, 30), (5, 13), (6, 25), (5, 21), (5, 17)];
 
-            uint shiftCoeff = 11;
+            uint shiftCoeff = 13;
             MathTools.CreateTable(morseCode, plainTextAlphabet, shiftCoeff);
 
             string filePath;

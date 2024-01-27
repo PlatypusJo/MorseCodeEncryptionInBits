@@ -77,7 +77,7 @@ namespace Lab2DP
                 morseCode = (length, code);
 
                 int codeSymCipher = Array.IndexOf(cipherTextAlphabet, morseCode);
-                uint codeSymPlain = MathTools.CalcCodeSymPlainText(shiftCoeff, (uint)codeSymCipher, (uint)plainTextAlphabet.Length);
+                uint codeSymPlain = MathTools.CalcCodeSymPlainText(shiftCoeff, (uint)codeSymCipher, (uint)cipherTextAlphabet.Length);
                 sym = plainTextAlphabet[codeSymPlain];
 
                 if (sym == "(")
@@ -107,10 +107,10 @@ namespace Lab2DP
 
         public void Write(byte code, byte length)
         {
-            byte bytePosition = (byte)(1 << (length - 1));
-            while (bytePosition != 0)
+            byte bitPosition = (byte)(1 << (length - 1));
+            while (bitPosition != 0)
             {
-                if ((bytePosition & code) > 0)
+                if ((bitPosition & code) > 0)
                 {
                     _curByte |= _mask; // записываем по биту в байт
                     Console.Write("1");
@@ -127,31 +127,30 @@ namespace Lab2DP
                     _curByte = 0;
                     _mask = 128;
                 }
-                bytePosition >>= 1;
+                bitPosition >>= 1;
             }
         }
 
         public byte ReadByte(byte length)
         {
-            byte bytePosition;
+            byte bitPosition;
             byte return_value;
 
-            bytePosition = (byte)(1L << (length - 1));
+            bitPosition = (byte)(1L << (length - 1));
             return_value = 0;
-            while (bytePosition != 0)
+            while (bitPosition != 0)
             {
                 if (_mask == 128)
                     _curByte = _binReader.ReadByte();
 
                 if ((_curByte & _mask) > 0)
                 {
-                    return_value |= bytePosition;
+                    return_value |= bitPosition;
                     Console.Write("1");
                 }
                 else Console.Write("0");
                     
-
-                bytePosition >>= 1;
+                bitPosition >>= 1;
                 _mask >>= 1;
 
                 if (_mask == 0)
